@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Retrieve arguments
+domain=$1
+path=$2
+user=$3
+
+# Remove trailing "/" for next commands
+path=${path%/}
+
+# Check user parameter
+sudo yunohost user list --json | grep -q "\"username\": \"$user\""
+if [[ ! $? -eq 0 ]]; then
+    echo "Wrong user"
+    exit 1
+fi
+sudo yunohost app setting webmin admin_user -v $user
+
+# Check domain/path availability
+sudo yunohost app checkurl $domain$path -a webmin
+if [[ ! $? -eq 0 ]]; then
+    exit 1
+fi
+sudo sh -c "echo 'deb http://download.webmin.com/download/repository sarge contrib' > s"
+sudo sh -c "echo 'deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' >> /etc/apt/sources.list.d/webmin.conf"
+
+cd /root
+sudo wget http://www.webmin.com/jcameron-key.asc
+sudo apt-key add jcameron-key.asc
+
+sudo apt-get update
+sudo apt-get install webmin
+
+sudo addgroup tifred root
+
+
+
+sed -i "s@PATHTOCHANGE@$path@g" ../conf/nginx.conf
+sudo cp ../conf/nginx.conf /etc/nginx/conf.d/$domain.d/webmin.conf
+
+
+# Reload Nginx and regenerate SSOwat conf
+sudo service nginx reload
+sudo yunohost app ssowatconf

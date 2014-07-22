@@ -1,0 +1,40 @@
+{
+    "name": "Webmin",
+    "id": "webmin",
+    "description": {
+        "en": "Webmin",
+        "fr": "Webmin"
+    },
+    "developer": {
+        "name": "",
+        "email": "",
+        "url": "http://www.webmin.com"
+    },
+    "multi_instance": "false",
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+                "ask": {
+                    "en": "Choose a domain for Webmin"
+                },
+                "example": "domain.org"
+            },
+            {
+                "name": "path",
+                "ask": {
+                    "en": "Choose a path for Webmin"
+                },
+                "example": "/webmin",
+                "default": "/webmin"
+            },
+            {
+                "name": "admin",
+                "ask": {
+                    "en": "Choose the Webmin administrator (must be an existing YunoHost user)"
+                },
+                "example": "homer"
+            }
+        ]
+    }
+}
