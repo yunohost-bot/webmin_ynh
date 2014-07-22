@@ -21,15 +21,16 @@ sudo yunohost app checkurl $domain$path -a webmin
 if [[ ! $? -eq 0 ]]; then
     exit 1
 fi
-sudo sh -c "echo 'deb http://download.webmin.com/download/repository sarge contrib' > s"
-sudo sh -c "echo 'deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' >> /etc/apt/sources.list.d/webmin.conf"
+sudo sh -c "echo 'deb http://download.webmin.com/download/repository sarge contrib' > /etc/apt/sources.list.d/webmin.list"
+sudo sh -c "echo 'deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' >> /etc/apt/sources.list.d/webmin.list"
 
-cd /root
+
 sudo wget http://www.webmin.com/jcameron-key.asc
 sudo apt-key add jcameron-key.asc
+sudo rm jcameron-key.asc
 
 sudo apt-get update
-sudo apt-get install webmin
+sudo apt-get install -Y webmin
 
 sudo addgroup tifred root
 
