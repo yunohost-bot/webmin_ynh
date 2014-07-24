@@ -3,4 +3,6 @@
 sudo delgroup tifred root
 sudo apt-get remove --purge webmin
 sudo rm -r /etc/apt/sources.list.d/webmin.list
+sudo rm -f /etc/nginx/conf.d/$domain.d/owncloud.conf
+sudo service nginx reload
 
