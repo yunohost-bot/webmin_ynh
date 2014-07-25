@@ -1,6 +1,8 @@
 #!/bin/bash
 
-sudo delgroup tifred root
+adminuser=$(sudo yunohost app setting owncloud admin_user)
+
+sudo delgroup $adminuser root
 sudo apt-get remove --purge webmin
 sudo rm -r /etc/apt/sources.list.d/webmin.list
 sudo rm -f /etc/nginx/conf.d/$domain.d/owncloud.conf
