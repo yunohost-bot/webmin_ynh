@@ -1,10 +1,10 @@
 #!/bin/bash
 
-adminuser=$(sudo yunohost app setting owncloud admin_user)
+adminuser=$(sudo yunohost app setting webmin admin_user)
 
 sudo delgroup $adminuser root
 sudo apt-get remove --purge webmin
 sudo rm -r /etc/apt/sources.list.d/webmin.list
-sudo rm -f /etc/nginx/conf.d/$domain.d/owncloud.conf
+sudo rm -f /etc/nginx/conf.d/$domain.d/webmin.conf
 sudo service nginx reload
 
