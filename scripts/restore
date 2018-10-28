@@ -6,8 +6,19 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source _common.sh
+source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
+
+#=================================================
+# MANAGE SCRIPT FAILURE
+#=================================================
+
+ynh_clean_setup () {
+	#### Remove this function if there's nothing to clean before calling the remove script.
+	true
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
 
 #=================================================
 # LOAD SETTINGS
@@ -21,38 +32,51 @@ admin=$(ynh_app_setting_get $app admin)
 port=$(ynh_app_setting_get $app port)
 
 #=================================================
-# CHECK THE PATH
+# CHECK IF THE APP CAN BE RESTORED
 #=================================================
 
-# Normalize the URL path syntax
-path_url=$(ynh_normalize_url_path $path_url)
+ynh_webpath_available $domain $path_url \
+	|| ynh_die "Path not available: ${domain}${path_url}"
 
 #=================================================
-# NGINX CONFIGURATION
+# STANDARD RESTORATION STEPS
+#=================================================
+# RESTORE THE NGINX CONFIGURATION
 #=================================================
 
-# Create a dedicated nginx config
-ynh_add_nginx_config
+ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
 
-#=================================================
-# UPGRADE DEPENDENCIES
+# FIND AND OPEN A PORT
 #=================================================
 
-ynh_install_app_dependencies perl libnet-ssleay-perl openssl libauthen-pam-perl libpam-runtime libio-pty-perl apt-show-versions python
+### Use these lines if you have to open a port for the application
+### `ynh_find_port` will find the first available port starting from the given port.
+### If you're not using these lines:
+###		- Remove the section "CLOSE A PORT" in the remove script
+
+yunohost firewall allow --no-upnp TCP $port 2>&1
 
 #=================================================
-# SPECIFIC UPGRADE
+# SPECIFIC RESTORATION
 #=================================================
+# REINSTALL DEPENDENCIES
+#=================================================
+
+# Define and install dependencies
+ynh_install_app_dependencies  perl libnet-ssleay-perl openssl libauthen-pam-perl libpam-runtime libio-pty-perl apt-show-versions python
+
+
 
 sudo sh -c "echo 'deb http://download.webmin.com/download/repository sarge contrib' > /etc/apt/sources.list.d/webmin.list"
 sudo sh -c "echo 'deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' >> /etc/apt/sources.list.d/webmin.list"
+
 
 sudo wget http://www.webmin.com/jcameron-key.asc
 sudo apt-key add jcameron-key.asc
 sudo rm jcameron-key.asc
 
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get install -y webmin
 
 #=================================================
 # MODIFY A CONFIG FILE
@@ -64,12 +88,6 @@ sudo apt-get upgrade
 ynh_replace_string "port=10000"   "port=$port"   "/etc/webmin/miniserv.conf"
 ynh_replace_string "listen=10000" "listen=$port" "/etc/webmin/miniserv.conf"
 
-### Verify the checksum of a file, stored by `ynh_store_file_checksum` in the install script.
-### And create a backup of this file if the checksum is different. So the file will be backed up if the admin had modified it.
-ynh_backup_if_checksum_is_different "/etc/webmin/miniserv.conf"
-# Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum "/etc/webmin/miniserv.conf"
-
 #=================================================
 # SETUP SSOWAT
 #=================================================
@@ -77,11 +95,10 @@ ynh_store_file_checksum "/etc/webmin/miniserv.conf"
 # Restrict access to admin only
 yunohost app addaccess --users=$admin $app
 
+
 #=================================================
 # RELOAD NGINX AND START WEBMIN
 #=================================================
 systemctl enable webmin
 systemctl restart webmin
 sudo service nginx reload
-
-

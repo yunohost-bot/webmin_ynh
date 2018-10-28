@@ -108,6 +108,27 @@ sudo apt-get update
 sudo apt-get install -y webmin
 
 #=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+
+### `ynh_replace_string` is used to replace a string in a file.
+### (It's compatible with sed regular expressions syntax)
+
+ynh_replace_string "port=10000"   "port=$port"   "/etc/webmin/miniserv.conf"
+ynh_replace_string "listen=10000" "listen=$port" "/etc/webmin/miniserv.conf"
+
+#=================================================
+# STORE THE CONFIG FILE CHECKSUM
+#=================================================
+
+### `ynh_store_file_checksum` is used to store the checksum of a file.
+### That way, during the upgrade script, by using `ynh_backup_if_checksum_is_different`,
+### you can make a backup of this file before modifying it again if the admin had modified it.
+
+# Calculate and store the config file checksum into the app settings
+ynh_store_file_checksum "/etc/webmin/miniserv.conf"
+
+#=================================================
 # SETUP SSOWAT
 #=================================================
 
@@ -119,6 +140,6 @@ yunohost app addaccess --users=$admin $app
 # RELOAD NGINX AND START WEBMIN
 #=================================================
 systemctl enable webmin
-systemctl start webmin
+systemctl restart webmin
 sudo service nginx reload
 
