@@ -43,7 +43,7 @@ then
 fi
 
 
-sudo apt-get remove --purge webmin
+sudo apt-get remove -y --purge webmin
 sudo rm -r /etc/apt/sources.list.d/webmin.list
 
 
