@@ -6,7 +6,6 @@
 ;; Test complet
 	; Manifest
 		domain="domain.tld"	(DOMAIN)
-		path="/path"	(PATH)
 		admin="john"	(USER)
 	; Checks
 		pkg_linter=1
