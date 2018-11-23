@@ -71,6 +71,16 @@ ynh_backup_if_checksum_is_different "/etc/webmin/miniserv.conf"
 ynh_store_file_checksum "/etc/webmin/miniserv.conf"
 
 #=================================================
+# CLOSE A PORT
+#=================================================
+
+if yunohost firewall list | grep -q "\- $port$"
+then
+	echo "Close port $port" >&2
+	yunohost firewall disallow TCP $port 2>&1
+fi
+
+#=================================================
 # SETUP SSOWAT
 #=================================================
 

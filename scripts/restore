@@ -46,16 +46,6 @@ ynh_webpath_available $domain $path_url \
 
 ynh_restore_file "/etc/nginx/conf.d/$domain.d/$app.conf"
 
-# FIND AND OPEN A PORT
-#=================================================
-
-### Use these lines if you have to open a port for the application
-### `ynh_find_port` will find the first available port starting from the given port.
-### If you're not using these lines:
-###		- Remove the section "CLOSE A PORT" in the remove script
-
-yunohost firewall allow --no-upnp TCP $port 2>&1
-
 #=================================================
 # SPECIFIC RESTORATION
 #=================================================
