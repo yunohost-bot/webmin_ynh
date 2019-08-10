@@ -2,8 +2,8 @@
     "name": "Webmin",
     "id": "webmin",
     "description": {
-        "en": "Webmin",
-        "fr": "Webmin"
+        "en": "Webmin is a web-based interface for system administration for Unix.",
+        "fr": "Webmin est une interface web d'administration système pour Unix."
     },
     "version": "1.890",
     "url": "http://www.webmin.com",
