@@ -1,6 +1,6 @@
 # WebMin package installation for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/webmin.svg)](https://ci-apps.yunohost.org/jenkins/job/webmin%20%28Community%29/lastBuild/consoleFull)
+[![Integration level](https://dash.yunohost.org/integration/webmin.svg)](https://dash.yunohost.org/appci/app/webmin) ![](https://ci-apps.yunohost.org/ci/badges/webmin.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/webmin.maintain.svg)
 
 [![Install webmin with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=webmin) <br> <br>
 
