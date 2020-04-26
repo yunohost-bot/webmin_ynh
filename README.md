@@ -1,8 +1,12 @@
 # WebMin package installation for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/webmin.svg)](https://dash.yunohost.org/appci/app/webmin) ![](https://ci-apps.yunohost.org/ci/badges/webmin.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/webmin.maintain.svg)
 
-[![Install webmin with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=webmin) <br> <br>
+[![Integration level](https://dash.yunohost.org/integration/webin.svg)](https://dash.yunohost.org/appci/app/webmin)  
+[![Install Webin with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=webmin)
+<br><br>
+
+> *This package allow you to install Webmin quickly and simply on a YunoHost server.  
+If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to know how to install and enjoy it.*
 
 **Note:** This app has **root** access which can change core things in the system, thus **breaking the YunoHost**. Use it carefully and read the [documents](https://doxfer.webmin.com/Webmin/Main_Page) two times before changing values.
 

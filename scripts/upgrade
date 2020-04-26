@@ -12,13 +12,14 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
+ynh_script_progression --message="Loading installation settings..." --time --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_app_setting_get $app path)
-admin=$(ynh_app_setting_get $app admin)
-port=$(ynh_app_setting_get $app port)
+domain=$(ynh_app_setting_get --app=$app --key=domain)
+path_url=$(ynh_app_setting_get --app=$app --key=path)
+admin=$(ynh_app_setting_get --app=$app --key=admin)
+port=$(ynh_app_setting_get --app=$app --key=port)
 
 #=================================================
 # CHECK THE PATH
@@ -30,15 +31,24 @@ path_url=$(ynh_normalize_url_path $path_url)
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
+ynh_script_progression --message="Upgrading nginx web server configuration..." --time --weight=1
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
 
 #=================================================
+ STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Stopping a systemd service..." --time --weight=1
+
+ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+
+#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
+ynh_script_progression --message="Upgrading dependencies..." --time --weight=1
 
-ynh_install_app_dependencies perl libnet-ssleay-perl openssl libauthen-pam-perl libpam-runtime libio-pty-perl apt-show-versions python
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -47,9 +57,9 @@ ynh_install_app_dependencies perl libnet-ssleay-perl openssl libauthen-pam-perl 
 sudo sh -c "echo 'deb http://download.webmin.com/download/repository sarge contrib' > /etc/apt/sources.list.d/webmin.list"
 sudo sh -c "echo 'deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' >> /etc/apt/sources.list.d/webmin.list"
 
-sudo wget http://www.webmin.com/jcameron-key.asc
-sudo apt-key add jcameron-key.asc
-sudo rm jcameron-key.asc
+wget http://www.webmin.com/jcameron-key.asc
+apt-key add jcameron-key.asc
+rm jcameron-key.asc
 
 sudo apt-get update
 sudo apt-get upgrade
@@ -67,8 +77,8 @@ ynh_store_file_checksum "/etc/webmin/miniserv.conf"
 
 if yunohost firewall list | grep -q "\- $port$"
 then
-	echo "Close port $port" >&2
-	yunohost firewall disallow TCP $port 2>&1
+	ynh_script_progression --message="Closing port $port..."
+	ynh_exec_warn_less yunohost firewall disallow TCP $port
 fi
 
 #=================================================
@@ -81,8 +91,14 @@ yunohost app addaccess --users=$admin $app
 #=================================================
 # RELOAD NGINX AND START WEBMIN
 #=================================================
-systemctl enable webmin
-systemctl restart webmin
-sudo service nginx reload
+ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
+
+ynh_systemd_action --service_name=nginx --action=reload
+
+ynh_script_progression --message="Starting webmin web server..." --time --weight=1
+ynh_systemd_action --service_name=$app --action=enable
+
+ynh_systemd_action --service_name=$app --action=start
+
 
 
