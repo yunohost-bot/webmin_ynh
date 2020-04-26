@@ -5,7 +5,7 @@
         "en": "Webmin",
         "fr": "Webmin"
     },
-    "version": "1.890ynh1",
+    "version": "1.941~ynh1",
     "url": "http://www.webmin.com",
     "license": "free",
     "maintainer": {

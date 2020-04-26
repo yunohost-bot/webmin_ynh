@@ -79,8 +79,8 @@ apt-get install -y webmin
 ### `ynh_replace_string` is used to replace a string in a file.
 ### (It's compatible with sed regular expressions syntax)
 
-ynh_replace_string --match_string="port=10000"   --replace_string"port=$port"   --target_file="/etc/webmin/miniserv.conf"
-ynh_replace_string --match_string="listen=10000"  --replace_string"listen=$port" --target_file="/etc/webmin/miniserv.conf"
+ynh_replace_string --match_string="port=10000"   --replace_string="port=$port"   --target_file="/etc/webmin/miniserv.conf"
+ynh_replace_string --match_string="listen=10000"  --replace_string="listen=$port" --target_file="/etc/webmin/miniserv.conf"
 #=================================================
 # SETUP SSOWAT
 #=================================================
