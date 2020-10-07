@@ -75,14 +75,14 @@ ynh_restore_file --origin_path="/etc/webmin/miniserv.conf"
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description "Webmin Daemon" --log "/var/log/$app/$app.log"
+yunohost service add $app --description "Webmin Daemon"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --line_match="Started LSB"
 
 #=================================================
 # GENERIC FINALIZATION
