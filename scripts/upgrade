@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..." --time --weight=1
+ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -22,83 +22,100 @@ admin=$(ynh_app_setting_get --app=$app --key=admin)
 port=$(ynh_app_setting_get --app=$app --key=port)
 
 #=================================================
+# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
+#=================================================
+ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
+
+# Backup the current version of the app
+ynh_backup_before_upgrade
+ynh_clean_setup () {
+	# restore it if the upgrade fails
+	ynh_restore_upgradebackup
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
+
+#=================================================
 # CHECK THE PATH
 #=================================================
 
 # Normalize the URL path syntax
-path_url=$(ynh_normalize_url_path $path_url)
+path_url=$(ynh_normalize_url_path --path_url=$path_url)
+
+#=================================================
+# STANDARD UPGRADE STEPS
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Stopping a systemd service..."
+
+ynh_systemd_action --service_name=$app --action="stop"  --line_match="Stopped LSB"
 
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..." --time --weight=1
+ynh_script_progression --message="Upgrading nginx web server configuration..."
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
 
 #=================================================
- STOP SYSTEMD SERVICE
-#=================================================
-ynh_script_progression --message="Stopping a systemd service..." --time --weight=1
-
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
-
-#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..." --time --weight=1
+ynh_script_progression --message="Upgrading dependencies..."
 
 ynh_install_app_dependencies $pkg_dependencies
+
+# Install Webmin
+ynh_backup_if_checksum_is_different --file="/etc/webmin/miniserv.conf"
+ynh_install_extra_app_dependencies --repo="deb https://download.webmin.com/download/repository sarge contrib" --package="webmin" --key="https://download.webmin.com/jcameron-key.asc"
 
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
+# MODIFY A CONFIG FILE
+#=================================================
+ynh_script_progression --message="Modifying a config file..."
 
-sudo sh -c "echo 'deb http://download.webmin.com/download/repository sarge contrib' > /etc/apt/sources.list.d/webmin.list"
-sudo sh -c "echo 'deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib' >> /etc/apt/sources.list.d/webmin.list"
+ynh_replace_string --match_string="port=10000"   --replace_string="port=$port"   --target_file="/etc/webmin/miniserv.conf"
+ynh_replace_string --match_string="listen=10000"  --replace_string="listen=$port" --target_file="/etc/webmin/miniserv.conf"
 
-wget http://www.webmin.com/jcameron-key.asc
-apt-key add jcameron-key.asc
-rm jcameron-key.asc
-
-sudo apt-get update
-sudo apt-get upgrade
-
-
-### Verify the checksum of a file, stored by `ynh_store_file_checksum` in the install script.
-### And create a backup of this file if the checksum is different. So the file will be backed up if the admin had modified it.
-ynh_backup_if_checksum_is_different "/etc/webmin/miniserv.conf"
 # Recalculate and store the checksum of the file for the next upgrade.
-ynh_store_file_checksum "/etc/webmin/miniserv.conf"
+ynh_store_file_checksum --file="/etc/webmin/miniserv.conf"
 
 #=================================================
-# CLOSE A PORT
+# GENERIC FINALIZATION
 #=================================================
+# INTEGRATE SERVICE IN YUNOHOST
+#=================================================
+ynh_script_progression --message="Integrating service in YunoHost..."
 
-if yunohost firewall list | grep -q "\- $port$"
-then
-	ynh_script_progression --message="Closing port $port..."
-	ynh_exec_warn_less yunohost firewall disallow TCP $port
-fi
+yunohost service add $app --description "Webmin Daemon"
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression --message="Starting a systemd service..."
+
+ynh_systemd_action --service_name=$app --action="start" --line_match="Started LSB"
 
 #=================================================
 # SETUP SSOWAT
 #=================================================
+ynh_script_progression --message="Upgrading SSOwat configuration..."
 
 # Restrict access to admin only
 yunohost app addaccess --users=$admin $app
 
 #=================================================
-# RELOAD NGINX AND START WEBMIN
+# RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..." --time --weight=1
+ynh_script_progression --message="Reloading nginx web server..."
 
 ynh_systemd_action --service_name=nginx --action=reload
 
-ynh_script_progression --message="Starting webmin web server..." --time --weight=1
-ynh_systemd_action --service_name=$app --action=enable
+#=================================================
+# END OF SCRIPT
+#=================================================
 
-ynh_systemd_action --service_name=$app --action=start
-
-
-
+ynh_script_progression --message="Upgrade of $app completed"
