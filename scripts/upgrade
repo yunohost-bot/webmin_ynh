@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..."
+ynh_script_progression --message="Loading installation settings..." --weight=1
 
 app=$YNH_APP_INSTANCE_NAME
 
@@ -24,7 +24,7 @@ port=$(ynh_app_setting_get --app=$app --key=port)
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..."
+ynh_script_progression --message="Backing up Webmin before upgrading (may take a while)..."
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -54,15 +54,15 @@ ynh_systemd_action --service_name=$app --action="stop"  --line_match="Stopped LS
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..."
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..."
+ynh_script_progression --message="Upgrading dependencies..." --weight=1
 
 ynh_install_app_dependencies $pkg_dependencies
 
@@ -71,7 +71,7 @@ ynh_backup_if_checksum_is_different --file="/etc/webmin/miniserv.conf"
 ynh_install_extra_app_dependencies --repo="deb https://download.webmin.com/download/repository sarge contrib" --package="webmin" --key="https://download.webmin.com/jcameron-key.asc"
 
 #=================================================
-# SPECIFIC UPGRADE
+# INSTALL WEBMIN
 #=================================================
 # MODIFY A CONFIG FILE
 #=================================================
@@ -100,17 +100,16 @@ ynh_script_progression --message="Starting a systemd service..."
 ynh_systemd_action --service_name=$app --action="start" --line_match="Started LSB"
 
 #=================================================
-# SETUP SSOWAT
+# START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..."
+ynh_script_progression --message="Starting a systemd service..." --weight=3
 
-# Restrict access to admin only
-yunohost app addaccess --users=$admin $app
+ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..."
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -118,4 +117,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed"
+ynh_script_progression --message="Upgrade of Webmin completed" --last
