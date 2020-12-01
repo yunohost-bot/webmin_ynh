@@ -1,9 +1,9 @@
-# WebMin package installation for YunoHost
+# Webmin for YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/webmin.svg)](https://dash.yunohost.org/appci/app/webmin) ![](https://ci-apps.yunohost.org/ci/badges/webmin.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/webmin.maintain.svg)  
-[![Install WebMin with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=webmin)
+[![Install Webmin with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=webmin)
 
-> *This package allows you to install WebMin quickly and simply on a YunoHost server.  
+> *This package allows you to install Webmin quickly and simply on a YunoHost server.  
 If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 
 **Note:** This app has **root** access which can change core things in the system, thus **breaking the YunoHost**. Use it carefully and read the [documents](https://doxfer.webmin.com/Webmin/Main_Page) two times before changing values.
@@ -15,19 +15,13 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ## Screenshots
 
-![](https://upload.wikimedia.org/wikipedia/commons/7/71/Webmin_Dashboard.gif)
+![](https://raw.githubusercontent.com/webmin-devel/webmin/master/media/webmin-demo-basic.gif)
 
 ## Important points
+
 - Only **root** (system user) can connect 
 - Webmin will **update itself** when system updates are run. So no need to **run upgrade script** once installed.
 - Only **user** given permission at time of the installation can **access** the Webmin 
-- Installation can only be done on **root path**. Eg. webmin.domain.tld 
-- No **multi-instance** for WebMin as it is a system integrated app 
-
-## Documentation
-
- * Official documentation: https://doxfer.webmin.com/Webmin/Main_Page
- * YunoHost documentation: If specific documentation is needed, feel free to contribute.
 
 ## Links
 
@@ -38,8 +32,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 ---
 
-Developer info
-----------------
+## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/webmin_ynh/tree/testing).
 
