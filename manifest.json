@@ -6,8 +6,13 @@
         "en": "Web-based interface for system administration for Unix.",
         "fr": "Interface Web d'administration système pour Unix."
     },
-    "version": "1.973~ynh1",
+    "version": "1.979~ynh1",
     "url": "http://www.webmin.com",
+    "upstream": {
+        "license": "BSD-3-Clause",
+        "website": "http://www.webmin.com",
+        "code": "https://github.com/webmin/webmin"
+    },
     "license": "BSD-3-Clause",
     "maintainer": {
         "name": "Anmol Sharma",
@@ -25,7 +30,7 @@
             {
                 "name": "domain",
                 "type": "domain",
-                "example": "domain.org"
+                "example": "example.com"
             },
             {
                 "name": "admin",
