@@ -72,7 +72,7 @@ ynh_restore_file --origin_path="/etc/webmin/miniserv.conf"
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description "Webmin Daemon"
+yunohost service add $app --description="Webmin Daemon"
 
 #=================================================
 # START SYSTEMD SERVICE
