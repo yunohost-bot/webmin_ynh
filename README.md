@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Web-based interface for system administration for Unix.
 
-**Shipped version:** 1.979~ynh1
+**Shipped version:** 1.979~ynh2
 
 
 

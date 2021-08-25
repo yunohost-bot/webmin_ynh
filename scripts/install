@@ -98,7 +98,7 @@ ynh_script_progression --message="Configuring a systemd service..."
 
 # Create a dedicated systemd config
 systemctl daemon-reload
-systemctl enable $app --quiet
+systemctl enable $app.service --quiet
 
 #=================================================
 # GENERIC FINALIZATION
@@ -115,7 +115,7 @@ yunohost service add $app --description="Webmin Daemon"
 ynh_script_progression --message="Starting a systemd service..."
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --line_match="Started LSB"
+ynh_systemd_action --service_name=$app --action="start" --line_match="Started LSB" --log_path="systemd"
 
 #=================================================
 # SETUP SSOWAT
