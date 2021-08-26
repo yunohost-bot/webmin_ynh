@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Interface Web d'administration système pour Unix.
 
-**Version incluse :** 1.979~ynh1
+**Version incluse :** 1.979~ynh2
 
 
 
