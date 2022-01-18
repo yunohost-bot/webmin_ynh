@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Webmin is a web-based interface for system administration for Unix. Using any modern web browser, you can setup user accounts, Apache, DNS, file sharing and much more. Webmin removes the need to manually edit Unix configuration files like `/etc/passwd`, and lets you manage a system from the console or remotely.
 
-**Shipped version:** 1.979~ynh2
+**Shipped version:** 1.984~ynh1
 
 
 
@@ -27,11 +27,10 @@ Webmin is a web-based interface for system administration for Unix. Using any mo
 
 ## Disclaimers / important information
 
-* Other infos that people should be aware of, such as:
-    * This app has **root** access which can change core things in the system, thus **breaking the YunoHost**. Use it carefully and read the [documents](https://doxfer.webmin.com/Webmin/Main_Page) two times before changing values.
-    * Only **root** (system user) can connect 
-    * Webmin will **update itself** when system updates are run. So no need to **run upgrade script** once installed.
-    * Only **user** given permission at time of the installation can **access** the Webmin 
+* This app has **root** access which can change core things in the system, thus **breaking the YunoHost**. Use it carefully and read the [documents](https://doxfer.webmin.com/Webmin/Main_Page) two times before changing values.
+* Only **root** (system user) can connect 
+* Webmin will **update itself** when system updates are run. So no need to **run upgrade script** once installed.
+* Only **user** given permission at time of the installation can **access** the Webmin 
 
 ## Documentation and resources
 
