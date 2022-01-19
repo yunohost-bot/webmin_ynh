@@ -12,6 +12,8 @@
 		upgrade=1
 		# 1.979~ynh1
 		upgrade=1	from_commit=157310ca395c326add85d24fa397f7fd0cadefb1
+		# 1.979~ynh2
+		upgrade=1	from_commit=99875e2b4c69f9ef22b05f565eeab52a8befb566
 		backup_restore=1
 		multi_instance=0
 		port_already_use=0
@@ -21,4 +23,6 @@ Email=
 Notification=none
 ;;; Upgrade options
 	; commit=157310ca395c326add85d24fa397f7fd0cadefb1
-		name=1.979~ynh1.
+		name=1.979~ynh1
+	; commit=99875e2b4c69f9ef22b05f565eeab52a8befb566
+		name=1.979~ynh2
