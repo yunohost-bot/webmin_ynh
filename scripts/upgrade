@@ -63,6 +63,19 @@ if ! ynh_permission_exists --permission="admin"; then
 fi
 
 #=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression --message="Setting up source files..."
+
+tempdir="$(mktemp -d)"
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$tempdir"
+
+dpkg --install $tempdir/webmin.deb
+
+ynh_exec_warn_less ynh_secure_remove --file="$tempdir"
+
+#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."

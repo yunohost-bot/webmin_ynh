@@ -1,0 +1,7 @@
+SOURCE_URL=https://github.com/webmin/webmin/releases/download/1.984/webmin_1.984_all.deb
+SOURCE_SUM=cc1e7267c945237e44762c2a8e714e271d8fafc3e8addd238ee3039ae00cb3fd
+SOURCE_SUM_PRG=sha256sum
+SOURCE_FORMAT=deb
+SOURCE_IN_SUBDIR=false
+SOURCE_FILENAME=webmin.deb
+SOURCE_EXTRACT=false
