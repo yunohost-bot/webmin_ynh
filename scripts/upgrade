@@ -36,6 +36,7 @@ ynh_script_progression --message="Backing up the app before upgrading (may take 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
+	ynh_clean_check_starting
 	# Restore it if the upgrade fails
 	ynh_restore_upgradebackup
 }
@@ -62,14 +63,6 @@ if ! ynh_permission_exists --permission="admin"; then
 fi
 
 #=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..."
-
-# Create a dedicated NGINX config
-ynh_add_nginx_config
-
-#=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."
@@ -79,6 +72,14 @@ ynh_install_app_dependencies $pkg_dependencies
 # Install Webmin
 ynh_backup_if_checksum_is_different --file="/etc/webmin/miniserv.conf"
 ynh_install_extra_app_dependencies --repo="deb https://download.webmin.com/download/repository sarge contrib" --package="webmin" --key="https://download.webmin.com/jcameron-key.asc"
+
+#=================================================
+# NGINX CONFIGURATION
+#=================================================
+ynh_script_progression --message="Upgrading NGINX web server configuration..."
+
+# Create a dedicated NGINX config
+ynh_add_nginx_config
 
 #=================================================
 # SPECIFIC UPGRADE
