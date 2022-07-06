@@ -57,6 +57,7 @@ ynh_script_progression --message="Removing dependencies..."
 
 # Remove metapackage and its dependencies
 ynh_exec_warn_less ynh_remove_app_dependencies
+dpkg --remove $app
 
 #=================================================
 # GENERIC FINALIZATION

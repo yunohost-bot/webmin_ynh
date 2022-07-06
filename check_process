@@ -22,7 +22,3 @@
 Email=
 Notification=none
 ;;; Upgrade options
-	; commit=157310ca395c326add85d24fa397f7fd0cadefb1
-		name=1.979~ynh1
-	; commit=99875e2b4c69f9ef22b05f565eeab52a8befb566
-		name=1.979~ynh2
