@@ -15,8 +15,8 @@
     },
     "license": "BSD-3-Clause",
     "maintainer": {
-        "name": "Anmol Sharma",
-        "email": "anmol@datamol.org"
+        "name": "",
+        "email": ""
     },
     "requirements": {
         "yunohost": ">= 4.3.0"
