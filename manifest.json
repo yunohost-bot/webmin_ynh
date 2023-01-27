@@ -6,7 +6,7 @@
         "en": "Web-based interface for system administration for Unix",
         "fr": "Interface Web d'administration système pour Unix"
     },
-    "version": "2.001~ynh1",
+    "version": "2.013~ynh1",
     "url": "http://www.webmin.com",
     "upstream": {
         "license": "BSD-3-Clause",
@@ -19,7 +19,7 @@
         "email": ""
     },
     "requirements": {
-        "yunohost": ">= 4.3.0"
+        "yunohost": ">= 11.0.9"
     },
     "multi_instance": false,
     "services": [
