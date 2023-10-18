@@ -40,6 +40,7 @@ ram.runtime = "50M"
         url = "https://github.com/webmin/webmin/releases/download/2.104/webmin_2.104_all.deb"
         sha256 = "80bb272ae7ade169b386c9b34fe0af535ea5e8342d7749917e8cc343f95498cb"
         rename = "webmin.deb"
+        autoupdate.strategy = "latest_github_tag"
 
     [resources.ports]
 
