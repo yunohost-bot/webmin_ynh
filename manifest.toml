@@ -2,8 +2,8 @@ packaging_format = 2
 
 id = "webmin"
 name = "Webmin"
-description.en = "Web-based interface for system administration for Unix"
-description.fr = "Interface Web d'administration système pour Unix"
+description.en = "Web-based interface for system administration"
+description.fr = "Interface Web d'administration système"
 
 version = "2.104~ynh1"
 
