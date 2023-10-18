@@ -22,7 +22,7 @@ Webmin is a web-based interface for system administration for Unix. Using any mo
 
 ## Screenshots
 
-![Screenshot of Webmin](./doc/screenshots/screenshot1.gif)
+![Screenshot of Webmin](./doc/screenshots/screenshot.png)
 
 ## Documentation and resources
 
