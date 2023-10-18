@@ -21,7 +21,7 @@ multi_instance = false
 ldap = false
 sso = false
 disk = "50M"
-ram.build = "50M"
+ram.build = "200M"
 ram.runtime = "50M"
 
 [install]
@@ -55,7 +55,3 @@ ram.runtime = "50M"
 
     [resources.apt]
     packages = "perl, libnet-ssleay-perl, openssl, libauthen-pam-perl, libpam-runtime, libio-pty-perl, apt-show-versions, shared-mime-info"
-
-    #extras.webmin.repo = "deb https://download.webmin.com/download/repository sarge contrib"
-    #extras.webmin.key = "https://download.webmin.com/jcameron-key.asc"
-    #extras.webmin.packages = "webmin"
