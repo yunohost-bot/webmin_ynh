@@ -1,0 +1,61 @@
+packaging_format = 2
+
+id = "webmin"
+name = "Webmin"
+description.en = "Web-based interface for system administration for Unix"
+description.fr = "Interface Web d'administration système pour Unix"
+
+version = "2.104~ynh1"
+
+maintainers = []
+
+[upstream]
+license = "BSD-3-Clause"
+website = "http://www.webmin.com"
+code = "https://github.com/webmin/webmin"
+
+[integration]
+yunohost = ">= 11.2"
+architectures = "all"
+multi_instance = false
+ldap = false
+sso = false
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "50M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "admins"
+
+    [install.admin]
+    type = "user"
+
+[resources]
+        [resources.sources.main]
+        url = "https://github.com/webmin/webmin/releases/download/2.104/webmin_2.104_all.deb"
+        sha256 = "80bb272ae7ade169b386c9b34fe0af535ea5e8342d7749917e8cc343f95498cb"
+        rename = "webmin.deb"
+
+    [resources.ports]
+
+    [resources.system_user]
+
+    [resources.install_dir]
+
+    [resources.permissions]
+    main.url = "/"
+    admin.url = "/admin"
+    admin.show_tile = false
+    admin.allowed = "admins"
+
+    [resources.apt]
+    packages = "perl, libnet-ssleay-perl, openssl, libauthen-pam-perl, libpam-runtime, libio-pty-perl, apt-show-versions, shared-mime-info"
+
+    #extras.webmin.repo = "deb https://download.webmin.com/download/repository sarge contrib"
+    #extras.webmin.key = "https://download.webmin.com/jcameron-key.asc"
+    #extras.webmin.packages = "webmin"
