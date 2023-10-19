@@ -5,7 +5,7 @@ name = "Webmin"
 description.en = "Web-based interface for system administration"
 description.fr = "Interface Web d'administration système"
 
-version = "2.104~ynh1"
+version = "2.104~ynh2"
 
 maintainers = []
 
