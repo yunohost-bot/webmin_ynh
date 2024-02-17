@@ -41,6 +41,7 @@ ram.runtime = "50M"
         sha256 = "80bb272ae7ade169b386c9b34fe0af535ea5e8342d7749917e8cc343f95498cb"
         rename = "webmin.deb"
         autoupdate.strategy = "latest_github_tag"
+        autoupdate.asset = "^webmin_.*_all.deb$"
 
     [resources.ports]
 
